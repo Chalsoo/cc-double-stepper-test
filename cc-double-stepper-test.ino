@@ -37,7 +37,7 @@ void backwardstep2() {
   myStepper2->onestep(BACKWARD, DOUBLE);
 }
 
-// Now we'll wrap the 3 steppers in an AccelStepper object
+// Now we'll wrap the 2 steppers in an AccelStepper object
 AccelStepper stepper1(forwardstep1, backwardstep1);
 AccelStepper stepper2(forwardstep2, backwardstep2);
 
@@ -46,23 +46,25 @@ void setup()
   AFMSbot.begin(); // Start the bottom shield
   AFMStop.begin(); // Start the top shield
    
-  stepper1.setMaxSpeed(100.0);
+  stepper1.setMaxSpeed(200.0);
   stepper1.setAcceleration(100.0);
   stepper1.moveTo(24);
     
   stepper2.setMaxSpeed(200.0);
   stepper2.setAcceleration(100.0);
-  stepper2.moveTo(50000);
+  stepper2.moveTo(24);
 }
 
 void loop()
 {
     // Change direction at the limits
-    if (stepper1.distanceToGo() == 0)
-  stepper1.moveTo(-stepper1.currentPosition());
+    if (stepper1.distanceToGo() == 0){
+      stepper1.moveTo(-stepper1.currentPosition());
+    }
 
-    if (stepper2.distanceToGo() == 0)
-  stepper2.moveTo(-stepper2.currentPosition());
+    if (stepper2.distanceToGo() == 0) {
+      stepper2.moveTo(-stepper2.currentPosition());
+    }
 
     stepper1.run();
     stepper2.run();
