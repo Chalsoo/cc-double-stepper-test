@@ -21,10 +21,6 @@ Adafruit_MotorShield AFMStop(0x60); // Default address, no jumpers
 Adafruit_StepperMotor *myStepper1 = AFMStop.getStepper(200, 1);
 Adafruit_StepperMotor *myStepper2 = AFMStop.getStepper(200, 2);
 
-// Connect one stepper with 200 steps per revolution (1.8 degree)
-// to the bottom shield
-Adafruit_StepperMotor *myStepper3 = AFMSbot.getStepper(200, 2);
-
 // you can change these to DOUBLE or INTERLEAVE or MICROSTEP!
 // wrappers for the first motor!
 void forwardstep1() {  
@@ -40,18 +36,10 @@ void forwardstep2() {
 void backwardstep2() {  
   myStepper2->onestep(BACKWARD, DOUBLE);
 }
-// wrappers for the third motor!
-void forwardstep3() {  
-  myStepper3->onestep(FORWARD, INTERLEAVE);
-}
-void backwardstep3() {  
-  myStepper3->onestep(BACKWARD, INTERLEAVE);
-}
 
 // Now we'll wrap the 3 steppers in an AccelStepper object
 AccelStepper stepper1(forwardstep1, backwardstep1);
 AccelStepper stepper2(forwardstep2, backwardstep2);
-AccelStepper stepper3(forwardstep3, backwardstep3);
 
 void setup()
 {  
@@ -65,10 +53,6 @@ void setup()
   stepper2.setMaxSpeed(200.0);
   stepper2.setAcceleration(100.0);
   stepper2.moveTo(50000);
-
-  stepper3.setMaxSpeed(300.0);
-  stepper3.setAcceleration(100.0);
-  stepper3.moveTo(1000000);
 }
 
 void loop()
@@ -80,11 +64,7 @@ void loop()
     if (stepper2.distanceToGo() == 0)
   stepper2.moveTo(-stepper2.currentPosition());
 
-    if (stepper3.distanceToGo() == 0)
-  stepper3.moveTo(-stepper3.currentPosition());
-
     stepper1.run();
     stepper2.run();
-    stepper3.run();
 }
 
